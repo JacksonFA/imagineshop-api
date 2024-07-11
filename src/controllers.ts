@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { loginUser } from 'services'
 
 export async function listUsersController(req: Request, res: Response) {
   const { name, age } = req.query
@@ -16,4 +17,15 @@ export async function createUserController(req: Request, res: Response) {
   const { name } = req.body
   console.log(name)
   return res.status(201).json({ message: 'User created' })
+}
+
+export async function loginUserController(req: Request, res: Response) {
+  try {
+    const { email, password } = req.body
+    const { user, accessToken } = await loginUser(email, password)
+    return res.json({ message: 'User logged', user, accessToken })
+  } catch (error: any) {
+    if (error.cause === 'Unauthorized') return res.status(401).json({ error: error.message })
+    return res.status(500).json({ error: 'Internal server error' })
+  }
 }
