@@ -4,7 +4,7 @@ import { prisma } from "lib/prisma";
 
 type UserProps = Partial<User>
 
-export async function loginUser(email: string, password: string) {
+export async function loginService(email: string, password: string) {
   let user = await prisma.user.findFirst({
     where: {
       email
@@ -25,7 +25,7 @@ export async function loginUser(email: string, password: string) {
   }
 
   delete user.password
-  const accessToken = sign(user, 'imagineshop', { expiresIn: '1d' })
+  const accessToken = sign(user, process.env.JWT_SECRET || '', { expiresIn: '1d' })
 
   return { user, accessToken }
 }
