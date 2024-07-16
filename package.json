@@ -12,6 +12,7 @@
     "dev:http": "tsx watch ./src/node-http.ts",
     "dev": "tsx watch ./src/server.ts",
     "build": "tsup ./src",
+    "start": "node dist/server.js",
     "studio": "npx prisma studio",
     "migrate": "npx prisma migrate"
   },
